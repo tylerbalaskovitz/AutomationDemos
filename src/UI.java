@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class UI {
+	Font font1 = new Font("Helvetica", Font.PLAIN, 24);
 	JPanel textPanel = new JPanel();
 	JPanel buttonPanel = new JPanel();
 	JTextArea jTextArea = new JTextArea();
@@ -23,20 +24,27 @@ public class UI {
 		window.getContentPane().setBackground(Color.blue);
 		window.setTitle("Cheongi Shock");
 		window.setLayout(null);
-		window.setVisible(true);
 		
 		textPanel.setBounds(20, 20, 400, 200);
 		textPanel.setVisible(true);
 		
+		jTextArea.setText("Hello, welcome to Cheongi shock, an OSRS bot :) ");
+		jTextArea.setLineWrap(true);
+		jTextArea.setWrapStyleWord(true);
 		jTextArea.setSize(400, 200);
 		jTextArea.setBackground(Color.white);
+		jTextArea.setEditable(false);
 		jTextArea.setVisible(true);
-		jTextArea.setText("Hello, welcome to Cheongi shock, an OSRS bot :) ");
+		jTextArea.setFont(font1);
+		
 		textPanel.add(jTextArea);
 		
 		window.add(textPanel);
 		
 		buttonPanel.setLayout(new GridLayout(2, 12));
+		buttonPanel.setBounds(20, 300, 500, 200);
+		buttonPanel.setBackground(Color.yellow);
+		buttonPanel.setVisible(true);
 		
 		fishingButton.setText("Fishing");
 		fishingButton.setBackground(Color.black);
@@ -45,7 +53,11 @@ public class UI {
 		fishingButton.setActionCommand(null);
 		fishingButton.setVisible(true);
 		
-		window.add(fishingButton);
+		buttonPanel.add(fishingButton);
+		
+		window.add(buttonPanel);
+		
+		window.setVisible(true);
 		
 		
 		
