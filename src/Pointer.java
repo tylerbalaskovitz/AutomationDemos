@@ -5,8 +5,12 @@ import java.awt.Robot;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Pointer implements MouseListener{
+public class Pointer implements MouseListener, Runnable{
 	Main main;
+	
+	int FPS = 60;
+	
+	Thread botThread;
 	
 	int mouseMovements = 0;
 	int previousXLocation [] = new int [100000];
@@ -83,6 +87,39 @@ public class Pointer implements MouseListener{
 		
 		
 				System.out.println("X:" + this.clickedX + " Y:" + this.clickedY);
+		
+	}
+
+	@Override
+	public void run() {
+		//this should run in the program so that way there is a cap on the number of coordinates being captured and put into the array since 100,000 is far too much.
+
+		double drawInterval = 1000000000/FPS;
+		double delta = 0;
+		long lastTime = System.nanoTime();
+		long currentTime;
+		long timer = 0;
+		int drawCount = 0;
+		
+		while (botThread != null) {
+			currentTime = System.nanoTime();
+			
+			delta += (currentTime - lastTime)/drawInterval;
+			timer += (currentTime - lastTime);
+			lastTime = currentTime;
+			
+			if (delta >= 1) {
+				delta--;
+				drawCount++;
+			}
+			
+			if (timer >= 1000000000) {
+				System.out.println("FPS: " + drawCount);
+				drawCount = 0;
+				timer = 0;
+			}
+			
+		}
 		
 	}
 
