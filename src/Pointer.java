@@ -4,8 +4,9 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class Pointer implements MouseListener, Runnable{
+public class Pointer implements MouseListener, MouseMotionListener, Runnable{
 	Main main;
 	
 	int FPS = 60;
@@ -65,6 +66,7 @@ public class Pointer implements MouseListener, Runnable{
 	}
 	
 	public void mouseCoordinates() throws AWTException {
+		/*
 		pointerLocation = MouseInfo.getPointerInfo().getLocation();
 		this.clickedX = (int)pointerLocation.getLocation().getX();
 		this.clickedY = (int)pointerLocation.getLocation().getY();
@@ -87,7 +89,7 @@ public class Pointer implements MouseListener, Runnable{
 		
 		
 				System.out.println("X:" + this.clickedX + " Y:" + this.clickedY);
-		
+		*/
 	}
 
 	@Override
@@ -120,6 +122,19 @@ public class Pointer implements MouseListener, Runnable{
 			}
 			
 		}
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		e.getX();
+		e.getY();
 		
 	}
 

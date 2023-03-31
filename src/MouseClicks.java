@@ -1,8 +1,9 @@
 
 public class MouseClicks {
 	
-	public int clickedX;
-	public int clickedY;
+	public boolean mouseClicked = false;
+	public int mootionX;
+	public int motionY;
 	public long duration;
 
 }
