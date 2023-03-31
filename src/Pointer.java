@@ -31,21 +31,30 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 	int previousYLocation [] = new int [100000];
 	Robot robot;
 	
+	public Point pointerLocation;
+	public double getX = MouseInfo.getPointerInfo().getLocation().getX();
+	public double getY = MouseInfo.getPointerInfo().getLocation().getY();
+	
+	public int mouseMovementX, mouseMovementY;
+	
+	
+	
 	
 	public Pointer(Main main) {
 		this.main = main;
 		
 	}
 	
-	public Point pointerLocation;
+	//This resets the arraylist when the player is not botting
+	public void resetArrayList(boolean currentlyBotting) {
+		
+		if (currentlyBotting == false) {
+			mmacArrayList.clear();
+		}
+		
+	}
+
 	
-	
-	
-	public double getX = MouseInfo.getPointerInfo().getLocation().getX();
-	public double getY = MouseInfo.getPointerInfo().getLocation().getY();
-	
-	
-	public int mouseMovementX, mouseMovementY;
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -83,11 +92,15 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		this.mouseMovementX = (int)pointerLocation.getLocation().getX();
 		this.mouseMovementY = (int)pointerLocation.getLocation().getY();
 		
+		//first the coordinates have to be gathered from the ArrayList, and after they are gathered,
+		//then the mouse click events will happen. 
+		
 		mouseMovements++;
-		if (mouseMovements < 100000) {
-			previousXLocation[mouseMovements] = this.mouseMovementX;
-			previousYLocation[mouseMovements] = this.mouseMovementY;
-			
+		while (currentlyBotting == true) {
+		mmac.setMovementX(mouseMovementX);
+		mmac.setMovementY(mouseMovementY);
+		
+		mmacArrayList.add(mmac);
 		}
 		
 		while (mouseMovements > 100000) {
@@ -101,6 +114,18 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		
 		
 				System.out.println("X:" + this.mouseMovementX + " Y:" + this.mouseMovementY);
+	}
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		
+		
 	}
 
 	@Override
@@ -116,10 +141,8 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 
 			now = System.nanoTime();
 		if(now - lastFrame >= timePerFrame) {
-			
 			lastFrame = now;
 			frames++;
-			
 		}
 		
 		if(System.currentTimeMillis() - lastCheck>= 1000) {
@@ -133,19 +156,7 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		
 	}
 
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		System.out.println(e.getX());
-		System.out.println(e.getY());
-		
-		
-	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -153,9 +164,15 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		
 	}
 
+	//Three keys are listened too, R for record, S for start, and EScape to quit
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+		switch(e.getKeyCode()) {
+			case KeyEvent.VK_R: currentlyBotting = true;break;
+			case KeyEvent.VK_S: currentlyBotting = true;break;
+			case KeyEvent.VK_ESCAPE: currentlyBotting = false;break;
+		}
 	}
 
 	@Override
