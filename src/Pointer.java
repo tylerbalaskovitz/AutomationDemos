@@ -60,7 +60,11 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		mmac.setMouseClicked(true);
+		switch (e.getID()) {
+		case InputEvent.BUTTON1_DOWN_MASK:mmac.setLeftMouseClicked(true); break;
+		case InputEvent.BUTTON3_DOWN_MASK:mmac.setRightMouseClicked(true); break;
+		}
+		
 		
 	}
 
@@ -72,7 +76,10 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		mmac.setMouseClicked(false);
+		switch (e.getID()) {
+		case InputEvent.BUTTON1_DOWN_MASK:mmac.setLeftMouseClicked(false); break;
+		case InputEvent.BUTTON3_DOWN_MASK:mmac.setRightMouseClicked(false); break;
+		}
 		
 	}
 
@@ -192,7 +199,7 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_R: currentlyBotting = false; recordingMouse = true;break;
 			case KeyEvent.VK_S: currentlyBotting = true; recordingMouse = false;break;
-			case KeyEvent.VK_ESCAPE: currentlyBotting = false; recordingMouse = false;break;
+			case KeyEvent.VK_ESCAPE: currentlyBotting = false; recordingMouse = false; resetArrayList(currentlyBotting);break;
 		}
 	}
 

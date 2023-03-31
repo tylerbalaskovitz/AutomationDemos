@@ -6,10 +6,10 @@ public class MouseMovementAndClicks {
 	public int movementX;
 	public int movementY;
 	
-	public boolean isMouseClicked() {
+	public boolean isLeftMouseClicked() {
 		return leftMouseClicked;
 	}
-	public void setMouseClicked(boolean mouseClicked) {
+	public void setLeftMouseClicked(boolean mouseClicked) {
 		this.leftMouseClicked = mouseClicked;
 	}
 	public int getMovementX() {
@@ -17,6 +17,12 @@ public class MouseMovementAndClicks {
 	}
 	public void setMovementX(int movementX) {
 		this.movementX = movementX;
+	}
+	public boolean isRightMouseClicked() {
+		return rightMouseClicked;
+	}
+	public void setRightMouseClicked(boolean rightMouseClicked) {
+		this.rightMouseClicked = rightMouseClicked;
 	}
 	public int getMovementY() {
 		return movementY;
