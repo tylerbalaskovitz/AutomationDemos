@@ -1,16 +1,16 @@
 
 public class MouseMovementAndClicks {
 	
-	public boolean mouseClicked = false;
+	public boolean leftMouseClicked = false;
+	public boolean rightMouseClicked = false;
 	public int movementX;
 	public int movementY;
-	public long duration;
 	
 	public boolean isMouseClicked() {
-		return mouseClicked;
+		return leftMouseClicked;
 	}
 	public void setMouseClicked(boolean mouseClicked) {
-		this.mouseClicked = mouseClicked;
+		this.leftMouseClicked = mouseClicked;
 	}
 	public int getMovementX() {
 		return movementX;
@@ -23,12 +23,6 @@ public class MouseMovementAndClicks {
 	}
 	public void setMovementY(int movementY) {
 		this.movementY = movementY;
-	}
-	public long getDuration() {
-		return duration;
-	}
-	public void setDuration(long duration) {
-		this.duration = duration;
 	}
 
 }

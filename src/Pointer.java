@@ -2,6 +2,7 @@ import java.awt.AWTException;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -21,6 +22,7 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 	//use this to create a method that clears the array list when true so that way new values can be stored within the
 	//the arrayList for multiple uses throughout using the application. 
 	public boolean currentlyBotting = false;
+	public boolean recordingMouse = false;
 	Thread botThread;
 	ArrayList <MouseMovementAndClicks> mmacArrayList = new ArrayList<>();	
 	int mouseMovements = 0;
@@ -40,9 +42,9 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 	
 	
 	
-	public Pointer(Main main) {
+	public Pointer(Main main) throws AWTException {
 		this.main = main;
-		
+		robot = new Robot();
 	}
 	
 	//This resets the arraylist when the player is not botting
@@ -58,8 +60,7 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Point m =  e.getPoint();
-		System.out.println(m);
+		mmac.setMouseClicked(true);
 		
 	}
 
@@ -71,7 +72,7 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		mmac.setMouseClicked(false);
 		
 	}
 
@@ -87,27 +88,39 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		
 	}
 	
-	public void mouseCoordinates() throws AWTException {
-		pointerLocation = MouseInfo.getPointerInfo().getLocation();
-		this.mouseMovementX = (int)pointerLocation.getLocation().getX();
-		this.mouseMovementY = (int)pointerLocation.getLocation().getY();
+	public void gatherMouseInformation() {
+		while (recordingMouse == true) {
+			pointerLocation = MouseInfo.getPointerInfo().getLocation();
+			this.mouseMovementX = (int)pointerLocation.getLocation().getX();
+			this.mouseMovementY = (int)pointerLocation.getLocation().getY();
+			
+			//first the coordinates have to be gathered from the ArrayList, and after they are gathered,
+			//then the mouse click events will happen. 
+			
+			mouseMovements++;
+			while (recordingMouse == true) {
+			mmac.setMovementX(mouseMovementX);
+			mmac.setMovementY(mouseMovementY);
+			
+			mmacArrayList.add(mmac);
+			}
 		
-		//first the coordinates have to be gathered from the ArrayList, and after they are gathered,
-		//then the mouse click events will happen. 
-		
-		mouseMovements++;
-		while (currentlyBotting == true) {
-		mmac.setMovementX(mouseMovementX);
-		mmac.setMovementY(mouseMovementY);
-		
-		mmacArrayList.add(mmac);
 		}
+	}
+	
+	public void automateMouseBehavior() throws AWTException {
 		
-		while (mouseMovements > 100000) {
-			for (int i = 0; i< 100000; i++) {
-			robot = new Robot();
-		
-			robot.mouseMove(previousXLocation[i], previousYLocation[i]);
+		while (currentlyBotting == true) {
+			for (int i = 0; i < mmacArrayList.size(); i++) {
+			
+				//moves the mouse based on the current ArrayList value that was captured. 
+			robot.mouseMove(mmacArrayList.get(i).getMovementX(), mmacArrayList.get(i).getMovementY());
+			if (mmacArrayList.get(i).leftMouseClicked == true) {
+				robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+			}
+			if (mmacArrayList.get(i).rightMouseClicked == true) {
+				robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
+			}
 			}
 		
 		}
@@ -139,6 +152,14 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		long lastCheck = System.currentTimeMillis();
 		while(true) {
 
+			gatherMouseInformation();
+			
+			try {
+				automateMouseBehavior();
+			} catch (AWTException e) {
+				e.printStackTrace();
+			}
+			
 			now = System.nanoTime();
 		if(now - lastFrame >= timePerFrame) {
 			lastFrame = now;
@@ -164,14 +185,14 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		
 	}
 
-	//Three keys are listened too, R for record, S for start, and EScape to quit
+	//Three keys are listened too, R for record, S for start, and ESCape to quit
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
-			case KeyEvent.VK_R: currentlyBotting = true;break;
-			case KeyEvent.VK_S: currentlyBotting = true;break;
-			case KeyEvent.VK_ESCAPE: currentlyBotting = false;break;
+			case KeyEvent.VK_R: currentlyBotting = false; recordingMouse = true;break;
+			case KeyEvent.VK_S: currentlyBotting = true; recordingMouse = false;break;
+			case KeyEvent.VK_ESCAPE: currentlyBotting = false; recordingMouse = false;break;
 		}
 	}
 
