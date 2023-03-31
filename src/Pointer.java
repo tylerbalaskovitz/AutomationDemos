@@ -2,18 +2,31 @@ import java.awt.AWTException;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
-public class Pointer implements MouseListener, MouseMotionListener, Runnable{
+public class Pointer implements MouseListener, MouseMotionListener, KeyListener, Runnable{
 	Main main;
 	
-	int FPS = 60;
+	/*Use an ArrayList and the size of the ArrayList is used within the loop as a way to allow for mouse movements to 
+	resize dynamically based on however long the player wants to bot. 
+	*/
 	
+	int FPS_SET = 60;
+	
+	//use this to create a method that clears the array list when true so that way new values can be stored within the
+	//the arrayList for multiple uses throughout using the application. 
+	public boolean currentlyBotting = false;
 	Thread botThread;
-	
+	ArrayList <MouseMovementAndClicks> mmacArrayList = new ArrayList<>();	
 	int mouseMovements = 0;
+	
+	MouseMovementAndClicks mmac = new MouseMovementAndClicks();
+	
 	int previousXLocation [] = new int [100000];
 	int previousYLocation [] = new int [100000];
 	Robot robot;
@@ -32,7 +45,7 @@ public class Pointer implements MouseListener, MouseMotionListener, Runnable{
 	public double getY = MouseInfo.getPointerInfo().getLocation().getY();
 	
 	
-	public int clickedX, clickedY;
+	public int mouseMovementX, mouseMovementY;
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -66,15 +79,14 @@ public class Pointer implements MouseListener, MouseMotionListener, Runnable{
 	}
 	
 	public void mouseCoordinates() throws AWTException {
-		/*
 		pointerLocation = MouseInfo.getPointerInfo().getLocation();
-		this.clickedX = (int)pointerLocation.getLocation().getX();
-		this.clickedY = (int)pointerLocation.getLocation().getY();
+		this.mouseMovementX = (int)pointerLocation.getLocation().getX();
+		this.mouseMovementY = (int)pointerLocation.getLocation().getY();
 		
 		mouseMovements++;
 		if (mouseMovements < 100000) {
-			previousXLocation[mouseMovements] = this.clickedX;
-			previousYLocation[mouseMovements] = this.clickedY;
+			previousXLocation[mouseMovements] = this.mouseMovementX;
+			previousYLocation[mouseMovements] = this.mouseMovementY;
 			
 		}
 		
@@ -88,40 +100,36 @@ public class Pointer implements MouseListener, MouseMotionListener, Runnable{
 		}
 		
 		
-				System.out.println("X:" + this.clickedX + " Y:" + this.clickedY);
-		*/
+				System.out.println("X:" + this.mouseMovementX + " Y:" + this.mouseMovementY);
 	}
 
 	@Override
 	public void run() {
 		//this should run in the program so that way there is a cap on the number of coordinates being captured and put into the array since 100,000 is far too much.
 
-		double drawInterval = 1000000000/FPS;
-		double delta = 0;
-		long lastTime = System.nanoTime();
-		long currentTime;
-		long timer = 0;
-		int drawCount = 0;
-		
-		while (botThread != null) {
-			currentTime = System.nanoTime();
+		double timePerFrame = 1000000000.0/FPS_SET;
+		long lastFrame = System.nanoTime();
+		long now = System.nanoTime();
+		int frames = 0;
+		long lastCheck = System.currentTimeMillis();
+		while(true) {
+
+			now = System.nanoTime();
+		if(now - lastFrame >= timePerFrame) {
 			
-			delta += (currentTime - lastTime)/drawInterval;
-			timer += (currentTime - lastTime);
-			lastTime = currentTime;
-			
-			if (delta >= 1) {
-				delta--;
-				drawCount++;
-			}
-			
-			if (timer >= 1000000000) {
-				System.out.println("FPS: " + drawCount);
-				drawCount = 0;
-				timer = 0;
-			}
+			lastFrame = now;
+			frames++;
 			
 		}
+		
+		if(System.currentTimeMillis() - lastCheck>= 1000) {
+			lastCheck = System.currentTimeMillis();
+			System.out.println("FPS: " + frames);
+			frames = 0;
+		}
+			
+		}
+
 		
 	}
 
@@ -133,8 +141,26 @@ public class Pointer implements MouseListener, MouseMotionListener, Runnable{
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		e.getX();
-		e.getY();
+		System.out.println(e.getX());
+		System.out.println(e.getY());
+		
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 

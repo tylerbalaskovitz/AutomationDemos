@@ -1,5 +1,5 @@
 
-public class MouseClicks {
+public class MouseMovementAndClicks {
 	
 	public boolean mouseClicked = false;
 	public int mootionX;

@@ -16,9 +16,7 @@ public class Main {
 		
 		ui.createUI();
 		
-		while(true) {
-		pointer.mouseCoordinates();
-		}
+		pointer.run();
 	}
 	
 }
