@@ -10,7 +10,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
-public class Pointer implements MouseListener, MouseMotionListener, KeyListener, Runnable{
+import javax.swing.JFrame;
+
+public class Pointer extends JFrame implements MouseListener, MouseMotionListener, KeyListener, Runnable{
 	Main main;
 	
 	/*Use an ArrayList and the size of the ArrayList is used within the loop as a way to allow for mouse movements to 
@@ -28,8 +30,6 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 	
 	MouseMovementAndClicks mmac = new MouseMovementAndClicks();
 	
-	int previousXLocation [] = new int [100000];
-	int previousYLocation [] = new int [100000];
 	Robot robot;
 	
 	public Point pointerLocation;
@@ -44,6 +44,9 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 	public Pointer(Main main) throws AWTException {
 		this.main = main;
 		robot = new Robot();
+		addKeyListener(this);
+		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 	
 	//This resets the arraylist when the player is not botting
@@ -104,9 +107,11 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 			//then the mouse click events will happen. 
 			mmac = new MouseMovementAndClicks();
 			
+			
+			
 			mmac.setMovementX(mouseMovementX);
 			mmac.setMovementY(mouseMovementY);
-			
+			System.out.println("X:" + this.mouseMovementX + " Y:" + this.mouseMovementY);
 			mmacArrayList.add(mmac);
 			}
 		
@@ -130,7 +135,7 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		}
 		
 		
-				System.out.println("X:" + this.mouseMovementX + " Y:" + this.mouseMovementY);
+				
 	}
 	
 	@Override
@@ -154,12 +159,15 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 		long now = System.nanoTime();
 		int frames = 0;
 		long lastCheck = System.currentTimeMillis();
-		while(true) {
 
-			gatherMouseInformation();
+			if (recordingMouse == true) {
+				gatherMouseInformation();
+			}
 			
 			try {
-				automateMouseBehavior();
+				if (currentlyBotting == true) {
+					automateMouseBehavior();
+				}
 			} catch (AWTException e) {
 				e.printStackTrace();
 			}
@@ -176,7 +184,6 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 			frames = 0;
 		}
 			
-		}
 
 		
 	}
