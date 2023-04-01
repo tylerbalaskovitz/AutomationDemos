@@ -25,7 +25,6 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 	public boolean recordingMouse = false;
 	Thread botThread;
 	ArrayList <MouseMovementAndClicks> mmacArrayList = new ArrayList<>();	
-	int mouseMovements = 0;
 	
 	MouseMovementAndClicks mmac = new MouseMovementAndClicks();
 	
@@ -103,16 +102,14 @@ public class Pointer implements MouseListener, MouseMotionListener, KeyListener,
 			
 			//first the coordinates have to be gathered from the ArrayList, and after they are gathered,
 			//then the mouse click events will happen. 
+			mmac = new MouseMovementAndClicks();
 			
-			mouseMovements++;
-			while (recordingMouse == true) {
 			mmac.setMovementX(mouseMovementX);
 			mmac.setMovementY(mouseMovementY);
 			
 			mmacArrayList.add(mmac);
 			}
 		
-		}
 	}
 	
 	public void automateMouseBehavior() throws AWTException {

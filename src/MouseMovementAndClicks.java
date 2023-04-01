@@ -1,3 +1,4 @@
+import java.awt.MouseInfo;
 
 public class MouseMovementAndClicks {
 	
@@ -5,6 +6,13 @@ public class MouseMovementAndClicks {
 	public boolean rightMouseClicked = false;
 	public int movementX;
 	public int movementY;
+	
+	public MouseMovementAndClicks() {
+		leftMouseClicked = false;
+		rightMouseClicked = false;
+		movementX = (int)MouseInfo.getPointerInfo().getLocation().getX();
+		movementY = (int)MouseInfo.getPointerInfo().getLocation().getY();
+	}
 	
 	public boolean isLeftMouseClicked() {
 		return leftMouseClicked;
