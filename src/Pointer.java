@@ -19,7 +19,6 @@ public class Pointer extends JFrame implements MouseListener, MouseMotionListene
 	resize dynamically based on however long the player wants to bot. 
 	*/
 	
-	int FPS_SET = 60;
 	
 	//use this to create a method that clears the array list when true so that way new values can be stored within the
 	//the arrayList for multiple uses throughout using the application. 
@@ -154,35 +153,7 @@ public class Pointer extends JFrame implements MouseListener, MouseMotionListene
 	public void run() {
 		//this should run in the program so that way there is a cap on the number of coordinates being captured and put into the array since 100,000 is far too much.
 
-		double timePerFrame = 1000000000.0/FPS_SET;
-		long lastFrame = System.nanoTime();
-		long now = System.nanoTime();
-		int frames = 0;
-		long lastCheck = System.currentTimeMillis();
-
-			if (recordingMouse == true) {
-				gatherMouseInformation();
-			}
-			
-			try {
-				if (currentlyBotting == true) {
-					automateMouseBehavior();
-				}
-			} catch (AWTException e) {
-				e.printStackTrace();
-			}
-			
-			now = System.nanoTime();
-		if(now - lastFrame >= timePerFrame) {
-			lastFrame = now;
-			frames++;
-		}
 		
-		if(System.currentTimeMillis() - lastCheck>= 1000) {
-			lastCheck = System.currentTimeMillis();
-			System.out.println("FPS: " + frames);
-			frames = 0;
-		}
 			
 
 		
