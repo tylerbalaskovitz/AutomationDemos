@@ -201,8 +201,13 @@ public class Pointer extends JFrame implements MouseListener, MouseMotionListene
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
-			case KeyEvent.VK_R: currentlyBotting = false; recordingMouse = true;break;
-			case KeyEvent.VK_S: currentlyBotting = true; recordingMouse = false;break;
+			case KeyEvent.VK_R: currentlyBotting = false; recordingMouse = true; gatherMouseInformation();break;
+			case KeyEvent.VK_S: currentlyBotting = true; recordingMouse = false; try {
+				automateMouseBehavior();
+			} catch (AWTException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} break;
 			case KeyEvent.VK_ESCAPE: currentlyBotting = false; recordingMouse = false; resetArrayList(currentlyBotting);break;
 		}
 	}
