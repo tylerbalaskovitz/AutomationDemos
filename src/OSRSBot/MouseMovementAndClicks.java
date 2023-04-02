@@ -1,3 +1,4 @@
+package OSRSBot;
 import java.awt.MouseInfo;
 
 public class MouseMovementAndClicks {

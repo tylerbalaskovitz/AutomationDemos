@@ -1,3 +1,4 @@
+package OSRSBot;
 import java.awt.AWTException;
 
 public class Main {

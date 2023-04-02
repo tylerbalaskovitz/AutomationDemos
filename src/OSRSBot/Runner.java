@@ -1,3 +1,4 @@
+package OSRSBot;
 import javax.swing.JFrame;
 
 public class Runner extends JFrame implements Runnable{

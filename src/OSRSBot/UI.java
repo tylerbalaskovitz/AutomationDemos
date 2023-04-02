@@ -1,3 +1,4 @@
+package OSRSBot;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -20,7 +21,6 @@ public class UI {
 	JButton woodCuttingButton = new JButton();
 	public void createUI() {
 		window.setSize(800, 600);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().setBackground(Color.blue);
 		window.setTitle("Cheongi Shock");
 		window.setLayout(null);

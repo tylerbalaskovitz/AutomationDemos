@@ -1,3 +1,4 @@
+package OSRSBot;
 import java.awt.AWTException;
 import java.awt.MouseInfo;
 import java.awt.Point;
