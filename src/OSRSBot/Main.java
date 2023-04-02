@@ -15,7 +15,6 @@ public class Main {
 	
 	public Main() throws AWTException {
 		
-		ui.createUI();
 		
 		runner.run();
 	}

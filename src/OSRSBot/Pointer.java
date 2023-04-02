@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-public class Pointer extends JFrame implements MouseListener, MouseMotionListener, KeyListener{
+public class Pointer extends JFrame implements MouseListener, MouseMotionListener, KeyListener, Runnable{
 	Main main;
 	
 	/*Use an ArrayList and the size of the ArrayList is used within the loop as a way to allow for mouse movements to 
@@ -46,6 +46,7 @@ public class Pointer extends JFrame implements MouseListener, MouseMotionListene
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		botThread = new Thread(this);
 	}
 	
 	public void startRobot() {
@@ -172,7 +173,7 @@ public class Pointer extends JFrame implements MouseListener, MouseMotionListene
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
-			case KeyEvent.VK_R: currentlyBotting = false; recordingMouse = true; gatherMouseInformation();break;
+			case KeyEvent.VK_W: currentlyBotting = false; recordingMouse = true; gatherMouseInformation();break;
 			case KeyEvent.VK_S: currentlyBotting = true; recordingMouse = false; try {
 				automateMouseBehavior();
 			} catch (AWTException e1) {
@@ -185,6 +186,12 @@ public class Pointer extends JFrame implements MouseListener, MouseMotionListene
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void run() {
 		// TODO Auto-generated method stub
 		
 	}
