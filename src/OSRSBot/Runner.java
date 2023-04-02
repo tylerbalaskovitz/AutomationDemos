@@ -19,7 +19,7 @@ public class Runner extends JFrame implements Runnable{
 	}
 
 	public void startBottingLoop() {
-		runnerThread = new Thread(this);
+		runnerThread = new Thread();
 		runnerThread.start();
 	}
 	
