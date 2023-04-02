@@ -1,12 +1,22 @@
-public class Runner implements Runnable{
-	public Thread bottingThread;
+import javax.swing.JFrame;
+
+public class Runner extends JFrame implements Runnable{
+	private Thread bottingThread;
+	private Pointer pointer;
 	
 	public int FPS_SET = 60;
 	
 	public Runner() {
-		bottingThread = new Thread();
+		pointer = new Pointer();
+		this.requestFocus();
+		startBottingLoop();
 	}
 
+	public void startBottingLoop() {
+		bottingThread = new Thread(this);
+		bottingThread.start();
+	}
+	
 	@Override
 	public void run() {
 		double timePerFrame = 1000000000.0/FPS_SET;

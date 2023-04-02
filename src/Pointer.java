@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-public class Pointer extends JFrame implements MouseListener, MouseMotionListener, KeyListener, Runnable{
+public class Pointer extends JFrame implements MouseListener, MouseMotionListener, KeyListener{
 	Main main;
 	
 	/*Use an ArrayList and the size of the ArrayList is used within the loop as a way to allow for mouse movements to 
@@ -40,12 +40,20 @@ public class Pointer extends JFrame implements MouseListener, MouseMotionListene
 	
 	
 	
-	public Pointer(Main main) throws AWTException {
-		this.main = main;
-		robot = new Robot();
+	public Pointer(){
+		startRobot();
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+	}
+	
+	public void startRobot() {
+		try {
+			robot = new Robot();
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//This resets the arraylist when the player is not botting
@@ -149,15 +157,6 @@ public class Pointer extends JFrame implements MouseListener, MouseMotionListene
 		
 	}
 
-	@Override
-	public void run() {
-		//this should run in the program so that way there is a cap on the number of coordinates being captured and put into the array since 100,000 is far too much.
-
-		
-			
-
-		
-	}
 
 
 
